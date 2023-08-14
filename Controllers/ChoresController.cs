@@ -17,19 +17,77 @@ namespace chore_score.Controllers
         {
             _choresService = choresService;
         }
-        [HttpGet]
 
+        [HttpGet]
         public ActionResult<List<Chore>> GetChores()
         {
             try
             {
                 List<Chore> chores = _choresService.GetChores();
-                return Ok();
+                return Ok(chores);
             }
             catch (Exception e)
             {
-                
-                return BadRequest(e.Message)
+
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{choreName}")]
+        public ActionResult<Chore> GetChoreByName(string choreName)
+        {
+            try
+            {
+                Chore chore = _choresService.GetChoreByName(choreName);
+                return Ok(chore);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult<Chore> CreateChore([FromBody] Chore choreData)
+        {
+            try
+            {
+                Chore chore = _choresService.CreateChore(choreData);
+                return Ok(chore);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{choreName}")]
+
+        public ActionResult<string> UpdateChore(string choreName, [FromBody] Chore choreData)
+        {
+            try
+            {
+                Chore chore = _choresService.UpdateChore(choreName, choreData);
+                return Ok(chore);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{choreName}")]
+
+        public ActionResult<string> RemoveChore(string choreName)
+        {
+            try
+            {
+                Chore chore = _choresService.RemoveChore(choreName);
+                return Ok($"Congrats, you no longer have to {chore.Name}, ever again!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }
